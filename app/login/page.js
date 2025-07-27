@@ -9,29 +9,8 @@ export default function LoginPage() {
   const [loginInProgress, setLoginInProgress] = useState(false);
   const [error, setError] = useState(false);
 
-  async function handleRegister(ev) {
-    ev.preventDefault();
-    setError(false);
-    setLoginInProgress(true);
-
-    const response = await fetch("/api/register", {
-      method: "POST",
-      body: JSON.stringify({ email, password }),
-      headers: { "Content-Type": "application/json" },
-    });
-
-    if (response.ok) {
-      await signIn("credentials", {
-        email,
-        password,
-        callbackUrl: "/edit-profile",
-      });
-    } else {
-      setError(true);
-    }
-
-    setLoginInProgress(false);
-  }
+  // This function is no longer needed since we have a separate register page
+  // Keeping it for reference but it's not used
 
   async function handleLogin(ev) {
     ev.preventDefault();

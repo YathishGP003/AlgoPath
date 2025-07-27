@@ -8,24 +8,54 @@ export async function POST(req) {
   try {
     const body = await req.json();
     await dbConnect();
-    const pass = body.password;
-    if (!pass?.length || pass.length < 5) {
+
+    const { email, password } = body;
+
+    // Validate email and password
+    if (!email || !password) {
+      return new Response(
+        JSON.stringify({ error: "Email and password are required" }),
+        { status: 400 }
+      );
+    }
+
+    if (!password?.length || password.length < 5) {
       return new Response(
         JSON.stringify({ error: "Password must be at least 5 characters" }),
         { status: 400 }
       );
     }
 
-    const notHashedPassword = pass;
+    // Check if user already exists
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return new Response(
+        JSON.stringify({ error: "User with this email already exists" }),
+        { status: 409 }
+      );
+    }
+
+    const notHashedPassword = password;
     const salt = bcrypt.genSaltSync(10);
-    body.password = bcrypt.hashSync(notHashedPassword, salt);
-    const userInfo = new UserInfo();
-    const userInfod = await userInfo.save();
-    body.userInfo = userInfod._id;
-    const createdUser = await User.create(body);
+    const hashedPassword = bcrypt.hashSync(notHashedPassword, salt);
+
+    // Create UserInfo first
+    const userInfo = new UserInfo({
+      email: email,
+      name: email.split("@")[0], // Default name from email
+    });
+    const savedUserInfo = await userInfo.save();
+
+    // Create User with reference to UserInfo
+    const createdUser = await User.create({
+      email: email,
+      password: hashedPassword,
+      userInfo: savedUserInfo._id,
+    });
 
     return Response.json(createdUser);
   } catch (error) {
+    console.error("Registration error:", error);
     return new Response(
       JSON.stringify({ error: error.message || "Registration failed" }),
       { status: 500 }
