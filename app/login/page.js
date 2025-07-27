@@ -7,7 +7,6 @@ export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loginInProgress, setLoginInProgress] = useState(false);
-  const [isLogin, setIsLogin] = useState(true);
   const [error, setError] = useState(false);
 
   async function handleRegister(ev) {
@@ -22,7 +21,11 @@ export default function LoginPage() {
     });
 
     if (response.ok) {
-      await signIn('credentials', {email, password, callbackUrl: isLogin? '/' : '/edit-profile'});
+      await signIn("credentials", {
+        email,
+        password,
+        callbackUrl: "/edit-profile",
+      });
     } else {
       setError(true);
     }
@@ -34,33 +37,37 @@ export default function LoginPage() {
     ev.preventDefault();
     setLoginInProgress(true);
 
-    await signIn('credentials', {email, password, callbackUrl: '/'});
+    await signIn("credentials", { email, password, callbackUrl: "/problems" });
     setLoginInProgress(false);
   }
 
   return (
     <section className="flex flex-col justify-center items-center min-h-[72vh]">
       {error && (
-        <div className="my-4 text-center bg-red-500 py-2 px-6 text-white rounded-full cursor-pointer" onClick={() => setError(false)}>
+        <div
+          className="my-4 text-center bg-red-500 py-2 px-6 text-white rounded-full cursor-pointer"
+          onClick={() => setError(false)}
+        >
           An error has occurred. Please try again!!
         </div>
       )}
-      <Link href='/' className='flex justify-center items-center mb-12 gap-3'>
+      <Link href="/" className="flex justify-center items-center mb-12 gap-3">
         <img
-          src='/algologo.png'
-          alt='AlgoPath Logo'
-          className='w-12 h-12 object-contain'
+          src="/algologo.png"
+          alt="AlgoPath Logo"
+          className="w-12 h-12 object-contain"
         />
-        <h2 className='font-bold text-2xl text-gray-900'>
-          AlgoPath
-        </h2>
+        <h2 className="font-bold text-2xl text-gray-900">AlgoPath</h2>
       </Link>
-      <form className="block mx-auto w-full max-w-[400px] px-2" onSubmit={isLogin? handleLogin : handleRegister}>
+      <form
+        className="block mx-auto w-full max-w-[400px] px-2"
+        onSubmit={handleLogin}
+      >
         <div className="mb-4">
           <input
             type="email"
             id="email"
-            name="email" 
+            name="email"
             placeholder="Email address"
             value={email}
             disabled={loginInProgress}
@@ -72,30 +79,36 @@ export default function LoginPage() {
           <input
             type="password"
             id="password"
-            name="password" 
-            placeholder="SSHHHH!! Your password"
+            name="password"
+            placeholder="Your password"
             value={password}
             disabled={loginInProgress}
             onChange={(ev) => setPassword(ev.target.value)}
             className="shadow-md p-4 bg-light-2 rounded-xl w-full sm:text-sm"
           />
         </div>
-        <div className="text-center mb-4">  
+        <div className="text-center mb-4">
           <button
             type="submit"
             disabled={loginInProgress}
             className="inline-flex items-center px-8 py-2 mt-4 bg-dark-1 text-white font-medium rounded-lg mx-auto disabled:cursor-not-allowed"
           >
-            {loginInProgress? (
-              <img src="loader.svg" alt="loading" className="w-6 h-6 object-contain" />
-            ) : isLogin? "Login" : "Register"}
+            {loginInProgress ? (
+              <img
+                src="loader.svg"
+                alt="loading"
+                className="w-6 h-6 object-contain"
+              />
+            ) : (
+              "Login"
+            )}
           </button>
         </div>
         <div className="text-center text-gray-700 mt-12">
-          {isLogin? "Don't have an account?" : "Already had an account?"}{' '}
-          <span className="underline cursor-pointer" onClick={() => setIsLogin(prev => !prev)}>
-            {isLogin? "Register" : "Login"}
-          </span>
+          Don't have an account?{" "}
+          <Link href="/register" className="underline cursor-pointer">
+            Register
+          </Link>
         </div>
       </form>
     </section>

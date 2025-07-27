@@ -1,6 +1,6 @@
 import "./globals.css";
-import Navbar from "@/components/shared/Navbar";
 import AuthSessionProvider from "@/components/providers/SessionProvider";
+import Navbar from "@/components/shared/Navbar";
 
 export const metadata = {
   title: "AlgoPath - Your Coding Ground",

@@ -31,7 +31,11 @@ export default function RegisterPage() {
     if (response.ok) {
       setSuccess(true);
       // Auto login after successful registration
-      await signIn('credentials', {email, password, callbackUrl: '/'});
+      await signIn("credentials", {
+        email,
+        password,
+        callbackUrl: "/problems",
+      });
     } else {
       const data = await response.json();
       setError(data.message || "Registration failed. Please try again.");
@@ -43,23 +47,24 @@ export default function RegisterPage() {
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
-        <Link href='/' className='flex justify-center items-center mb-8 gap-3'>
+        <Link href="/" className="flex justify-center items-center mb-8 gap-3">
           <img
-            src='/algologo.png'
-            alt='AlgoPath Logo'
-            className='w-12 h-12 object-contain'
+            src="/algologo.png"
+            alt="AlgoPath Logo"
+            className="w-12 h-12 object-contain"
           />
-          <h2 className='font-bold text-2xl text-gray-900'>
-            AlgoPath
-          </h2>
+          <h2 className="font-bold text-2xl text-gray-900">AlgoPath</h2>
         </Link>
         <h2 className="text-center text-3xl font-bold text-gray-900">
           Create your account
         </h2>
         <p className="mt-2 text-center text-sm text-gray-600">
-          Or{' '}
-          <Link href="/login" className="font-medium text-red-600 hover:text-red-500">
-            sign in to your existing account
+          Already have an account?{" "}
+          <Link
+            href="/login"
+            className="font-medium text-red-600 hover:text-red-500"
+          >
+            Login
           </Link>
         </p>
       </div>
@@ -71,7 +76,7 @@ export default function RegisterPage() {
               {error}
             </div>
           )}
-          
+
           {success && (
             <div className="mb-4 bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded">
               Registration successful! Redirecting...
@@ -80,7 +85,10 @@ export default function RegisterPage() {
 
           <form className="space-y-6" onSubmit={handleRegister}>
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium text-gray-700"
+              >
                 Email address
               </label>
               <div className="mt-1">
@@ -100,7 +108,10 @@ export default function RegisterPage() {
             </div>
 
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+              <label
+                htmlFor="password"
+                className="block text-sm font-medium text-gray-700"
+              >
                 Password
               </label>
               <div className="mt-1">
@@ -120,7 +131,10 @@ export default function RegisterPage() {
             </div>
 
             <div>
-              <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700">
+              <label
+                htmlFor="confirmPassword"
+                className="block text-sm font-medium text-gray-700"
+              >
                 Confirm Password
               </label>
               <div className="mt-1">
@@ -147,14 +161,30 @@ export default function RegisterPage() {
               >
                 {loginInProgress ? (
                   <div className="flex items-center">
-                    <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    <svg
+                      className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                    >
+                      <circle
+                        className="opacity-25"
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        strokeWidth="4"
+                      ></circle>
+                      <path
+                        className="opacity-75"
+                        fill="currentColor"
+                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                      ></path>
                     </svg>
                     Creating account...
                   </div>
                 ) : (
-                  'Create account'
+                  "Create account"
                 )}
               </button>
             </div>
