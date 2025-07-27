@@ -1,110 +1,191 @@
-<h1 align="center">
-  <br>
-  <a href="https://codegamy.vercel.app/"><img src="https://raw.githubusercontent.com/kunalagra/codegamy/main/public/logo.png" alt="Codegamy" width="200"></a>
-  <br>
-  AlgoPath
-  <br>
-</h1>
+# AlgoPath 🚀
 
-<h4 align="center">Online Judge & Coding Practice Platform</h4>
+**Your Ultimate Coding Practice Platform**
 
-<p align="center">
-  <a href="#key-features">Key Features</a> •
-  <a href="#how-to-use">How To Use</a> •
-  <a href="#credits">Credits</a> •
-  <a href="#collaborators">Collaborators</a> •
-  <a href="#license">License</a>
-</p>
+AlgoPath is a modern, full-stack web application designed to help developers master algorithmic thinking and coding skills through interactive problem-solving and real-time code execution.
 
-![screenshot](https://raw.githubusercontent.com/kunalagra/codegamy/main/public/screenshot.png)
+![AlgoPath Banner](https://via.placeholder.com/800x400/1f2937/ffffff?text=AlgoPath+-+Master+Your+Coding+Skills)
 
-## Key Features
+## ✨ Features
 
-* **User Authentication**: Secure user signup, login, and session handling using Next-Auth
-* **Problem Selection Interface**: Browse and choose from a variety of coding problems
-* **Code Submission & Execution**: Integrated code editor with support for multiple programming languages
-* **Online Judge (OJ) Functionality**: Run submitted code against predefined test cases with real-time feedback
-* **Multi-language Support**: C++, Java, JavaScript, and Python
-* **Real-time Code Execution**: Powered by JDoodle API for reliable code compilation and execution
+### 🔐 **Secure User Authentication**
 
-## How To Use
+- Email/password registration and login
+- Session management with NextAuth.js
+- Secure password hashing with bcrypt
+- Protected routes and user profiles
 
-To clone and run this application, you'll need [Git](https://git-scm.com) and [Node.js](https://nodejs.org/en/download/) (which comes with [npm](http://npmjs.com)) installed on your computer. From your command line:
+### 📊 **Interactive Problem Dashboard**
 
-```bash
-# Clone this repository
-$ git clone https://github.com/your/algopath
+- Browse coding problems by difficulty (Easy, Medium, Hard)
+- Track your progress with solved problem indicators
+- Dynamic status badges showing completion status
+- Search and filter problems by categories
 
-# Go into the repository
-$ cd codegamy
+### 💻 **Advanced Code Editor**
 
-# Rename .env.example to .env
-$ mv .env.example .env
+- Multi-language support (Python, JavaScript, Java, C++)
+- Syntax highlighting with CodeMirror
+- Multiple themes (Dark, Light, VS Code)
+- Adjustable font sizes
+- Auto-completion and bracket matching
 
-# Install dependencies
-$ npm install
+### ⚡ **Real-time Code Execution**
 
-# Run the app
-$ npm run dev
+- Instant code compilation and execution
+- JDoodle API integration for reliable testing
+- Custom input testing capabilities
+- Detailed output with runtime and memory usage
+
+### 🏆 **Online Judge System**
+
+- Automated test case validation
+- Real-time feedback on code submissions
+- Acceptance/rejection status with detailed results
+- Performance metrics and optimization hints
+
+## 🛠️ Tech Stack
+
+### Frontend
+
+- **Next.js 15** - React framework with App Router
+- **React 18** - Modern React with hooks
+- **Tailwind CSS** - Utility-first CSS framework
+- **CodeMirror** - Advanced code editor
+- **React Icons** - Beautiful icon library
+
+### Backend
+
+- **Next.js API Routes** - Serverless backend functions
+- **MongoDB** - NoSQL database with Mongoose ODM
+- **NextAuth.js** - Authentication library
+- **JDoodle API** - Code execution service
+
+### Development Tools
+
+- **ESLint** - Code linting and formatting
+- **Autoprefixer** - CSS vendor prefixing
+- **PostCSS** - CSS processing
+
+## 🚀 Quick Start
+
+### Prerequisites
+
+- Node.js 18+ and npm
+- MongoDB database
+- JDoodle API key (from RapidAPI)
+
+### Installation
+
+1. **Clone the repository**
+
+   ```bash
+   git clone https://github.com/YathishGP003/AlgoPath.git
+   cd algopath
+   ```
+
+2. **Install dependencies**
+
+   ```bash
+   npm install
+   ```
+
+3. **Set up environment variables**
+
+   ```bash
+   cp .env.example .env
+   ```
+
+   Update `.env` with your credentials:
+
+   ```env
+   # Database
+   MONGO_URL=mongodb://localhost:27017/algopath
+
+   # Authentication
+   NEXTAUTH_URL=http://localhost:3000
+   NEXTAUTH_SECRET=your_secret_key_here
+
+   # Code Execution API
+   NEXT_PUBLIC_RAPID_API_KEY=your_rapidapi_key
+   NEXT_PUBLIC_RAPID_API_HOST=jdoodle2.p.rapidapi.com
+   ```
+
+4. **Start the development server**
+
+   ```bash
+   npm run dev
+   ```
+
+5. **Open your browser**
+   Navigate to `http://localhost:3000`
+
+## 📁 Project Structure
+
 ```
-> [!IMPORTANT]  
-> Populate your .env keys with their respective values. 
+algopath/
+├── app/                  # Next.js App Router pages
+│   ├── api/              # API routes
+│   ├── login/            # Authentication pages
+│   ├── problems/         # Problem pages
+│   └── layout.js         # Root layout
+├── components/           # React components
+│   ├── shared/           # Reusable components
+│   └── workspace/        # Code editor components
+├── models/               # MongoDB schemas
+├── utils/                # Utility functions
+├── public/               # Static assets
+└── constants/            # App constants
+```
 
-> [!NOTE]
-> If you're using Linux Bash for Windows, [see this guide](https://www.howtogeek.com/261575/how-to-run-graphical-linux-desktop-applications-from-windows-10s-bash-shell/) or use `node` from the command prompt.
+## 🔧 API Endpoints
 
-## Credits
+### Authentication
 
-This software uses the following packages:
+- `POST /api/register` - User registration
+- `POST /api/auth/[...nextauth]` - NextAuth handlers
 
-- [Node.js](https://nodejs.org/)
-- [Next.JS](https://github.com/vercel/next.js/)
-- [MongoDB](https://www.mongodb.com/)
-- [Jitsi](https://github.com/jitsi/jitsi)
+### Problems
 
-Built at Quasar 2.0
+- `GET /api/getAllProblems` - Fetch all problems
+- `GET /api/getProblembyId` - Get specific problem
+- `POST /api/submitCode` - Submit code for execution
 
-## Collaborators
-<table>
-<tr>
-    <td align="center">
-        <a href="https://github.com/kunalagra">
-            <img src="https://avatars.githubusercontent.com/u/66416646?v=4" width="100;" alt="kunalagra"/>
-            <br />
-            <sub><b>Kunal Agrawal</b></sub>
-        </a>
-    </td>
-    <td align="center">
-        <a href="https://github.com/ganesh-utla">
-            <img src="https://avatars.githubusercontent.com/u/87692393?v=4" width="100;" alt="ganesh-utla"/>
-            <br />
-            <sub><b>Ganesh Utla</b></sub>
-        </a>
-    </td>
-    <td align="center">
-        <a href="https://github.com/MDeexith">
-            <img src="https://avatars.githubusercontent.com/u/88663554?v=4" width="100;" alt="MDeexith"/>
-            <br />
-            <sub><b>Deexith Madas</b></sub>
-        </a>
-    </td>
-    <td align="center">
-        <a href="https://github.com/amant03">
-            <img src="https://avatars.githubusercontent.com/u/96176706?v=4" width="100;" alt="amant03"/>
-            <br />
-            <sub><b>Aman Tiwari</b></sub>
-        </a>
-    </td>
+### User Management
 
- </tr>
-</table>
+- `GET /api/getUserInfo` - Get user profile and progress
 
+## 🎯 Usage Guide
 
-## You may also like...
+### For Students
 
-- [MediCall](https://github.com/kunalagra/MediCall) - An AIO Medical platform to connect doctors and patients
-- [Sikho](https://github.com/kunalagra/sikho) - Professional Learning Marketplace
+1. **Sign up** for a free account
+2. **Browse problems** on the dashboard
+3. **Select a problem** to start coding
+4. **Write your solution** in the integrated editor
+5. **Test with custom inputs** before submission
+6. **Submit your code** for automated testing
+7. **Track your progress** and improve your skills
 
-## License
+### For Educators
 
-AGPL-3
+- Use AlgoPath to assign coding problems
+- Monitor student progress through the dashboard
+- Create custom problem sets for your curriculum
+
+## 🤝 Contributing
+
+We welcome contributions! Please follow these steps:
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## 🙏 Acknowledgments
+
+- **JDoodle** for providing the code execution API
+- **Next.js team** for the amazing framework
+- **MongoDB** for the reliable database solution
+- **Tailwind CSS** for the beautiful styling system
