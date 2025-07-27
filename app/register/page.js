@@ -11,6 +11,21 @@ export default function RegisterPage() {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
 
+  const handleEmailChange = (ev) => {
+    setEmail(ev.target.value);
+    if (error) setError(""); // Clear error when user starts typing
+  };
+
+  const handlePasswordChange = (ev) => {
+    setPassword(ev.target.value);
+    if (error) setError(""); // Clear error when user starts typing
+  };
+
+  const handleConfirmPasswordChange = (ev) => {
+    setConfirmPassword(ev.target.value);
+    if (error) setError(""); // Clear error when user starts typing
+  };
+
   async function handleRegister(ev) {
     ev.preventDefault();
     setError("");
@@ -38,7 +53,20 @@ export default function RegisterPage() {
       });
     } else {
       const data = await response.json();
-      setError(data.message || "Registration failed. Please try again.");
+
+      // Handle specific error cases
+      if (response.status === 409) {
+        setError(
+          "An account with this email already exists. Please try logging in instead."
+        );
+        // Clear password fields for security
+        setPassword("");
+        setConfirmPassword("");
+      } else if (response.status === 400) {
+        setError(data.error || "Please check your input and try again.");
+      } else {
+        setError(data.error || "Registration failed. Please try again.");
+      }
     }
 
     setLoginInProgress(false);
@@ -73,7 +101,26 @@ export default function RegisterPage() {
         <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
           {error && (
             <div className="mb-4 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded">
-              {error}
+              <div className="flex justify-between items-center">
+                <span>{error}</span>
+                <button
+                  type="button"
+                  onClick={() => setError("")}
+                  className="text-red-500 hover:text-red-700 text-sm font-medium"
+                >
+                  ✕
+                </button>
+              </div>
+              {error.includes("already exists") && (
+                <div className="mt-2">
+                  <Link
+                    href="/login"
+                    className="text-red-600 hover:text-red-800 text-sm font-medium underline"
+                  >
+                    Go to Login →
+                  </Link>
+                </div>
+              )}
             </div>
           )}
 
@@ -99,7 +146,7 @@ export default function RegisterPage() {
                   autoComplete="email"
                   required
                   value={email}
-                  onChange={(ev) => setEmail(ev.target.value)}
+                  onChange={handleEmailChange}
                   disabled={loginInProgress}
                   className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:ring-red-500 focus:border-red-500"
                   placeholder="Enter your email"
@@ -122,7 +169,7 @@ export default function RegisterPage() {
                   autoComplete="new-password"
                   required
                   value={password}
-                  onChange={(ev) => setPassword(ev.target.value)}
+                  onChange={handlePasswordChange}
                   disabled={loginInProgress}
                   className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:ring-red-500 focus:border-red-500"
                   placeholder="Create a password"
@@ -145,7 +192,7 @@ export default function RegisterPage() {
                   autoComplete="new-password"
                   required
                   value={confirmPassword}
-                  onChange={(ev) => setConfirmPassword(ev.target.value)}
+                  onChange={handleConfirmPasswordChange}
                   disabled={loginInProgress}
                   className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:ring-red-500 focus:border-red-500"
                   placeholder="Confirm your password"

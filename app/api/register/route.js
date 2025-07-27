@@ -19,6 +19,15 @@ export async function POST(req) {
       );
     }
 
+    // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      return new Response(
+        JSON.stringify({ error: "Please enter a valid email address" }),
+        { status: 400 }
+      );
+    }
+
     if (!password?.length || password.length < 5) {
       return new Response(
         JSON.stringify({ error: "Password must be at least 5 characters" }),
@@ -30,7 +39,7 @@ export async function POST(req) {
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return new Response(
-        JSON.stringify({ error: "User with this email already exists" }),
+        JSON.stringify({ error: "An account with this email already exists" }),
         { status: 409 }
       );
     }
@@ -53,11 +62,23 @@ export async function POST(req) {
       userInfo: savedUserInfo._id,
     });
 
-    return Response.json(createdUser);
+    return Response.json({
+      message: "User registered successfully",
+      user: { email: createdUser.email, id: createdUser._id },
+    });
   } catch (error) {
     console.error("Registration error:", error);
+
+    // Handle specific database errors
+    if (error.code === 11000) {
+      return new Response(
+        JSON.stringify({ error: "An account with this email already exists" }),
+        { status: 409 }
+      );
+    }
+
     return new Response(
-      JSON.stringify({ error: error.message || "Registration failed" }),
+      JSON.stringify({ error: "Registration failed. Please try again later." }),
       { status: 500 }
     );
   }
