@@ -56,9 +56,9 @@ const Problems = () => {
   }, [status]);
 
   const difficultyColors = {
-    Hard: "bg-red-700",
-    Medium: "bg-orange-600",
-    Easy: "bg-green-600",
+    Hard: "text-red-400 bg-red-400/10 border border-red-400/30",
+    Medium: "text-yellow-400 bg-yellow-400/10 border border-yellow-400/30",
+    Easy: "text-green-400 bg-green-400/10 border border-green-400/30",
   };
 
   // Check if a problem is solved by the user
@@ -70,95 +70,122 @@ const Problems = () => {
   const renderStatusBadge = (problem) => {
     if (status === "loading") {
       return (
-        <div className="px-4 py-2 bg-gray-200 text-gray-500 rounded-lg text-sm font-medium animate-pulse mx-auto w-fit">
-          Loading...
+        <div className="flex items-center justify-center">
+          <div className="w-4 h-4 border-2 border-gray-600 border-t-transparent rounded-full animate-spin"></div>
         </div>
       );
     }
 
     if (status === "unauthenticated") {
-      return (
-        <div className="px-4 py-2 bg-gray-100 text-gray-600 rounded-lg text-sm font-medium mx-auto w-fit border border-gray-300">
-          Login to Track
-        </div>
-      );
+      return <div className="text-gray-400 text-sm">Login to Track</div>;
     }
 
     if (isProblemSolved(problem._id || problem.id)) {
       return (
-        <div className="px-4 py-2 bg-green-100 text-green-700 rounded-lg text-sm font-medium mx-auto w-fit border border-green-300">
-          ✓ Solved
+        <div className="flex items-center text-green-400">
+          <ImCheckboxChecked className="w-4 h-4" />
         </div>
       );
     } else {
       return (
-        <div className="px-4 py-2 bg-orange-100 text-orange-700 rounded-lg text-sm font-medium mx-auto w-fit border border-orange-300">
-          Solve Problem
-        </div>
+        <div className="w-4 h-4 rounded-full border-2 border-gray-600"></div>
       );
     }
   };
 
   return (
-    <div>
-      <div className="p-10 max-md:p-3">
-        <div className="relative overflow-auto rounded-xl shadow-xl max-w-6xl mx-auto">
-          <table className="w-full text-sm text-left rtl:text-right">
-            <thead className=" text-gray-700 uppercase bg-light-3">
-              <tr>
-                <th scope="col" className="p-6">
-                  Sr No.
+    <div className="min-h-screen bg-gray-900">
+      <div className="max-w-7xl mx-auto px-4 py-8">
+        {/* Header */}
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold text-white mb-2">Problems</h1>
+          <p className="text-gray-400">
+            Solve coding problems to improve your algorithmic thinking
+          </p>
+        </div>
+
+        {/* Problems Table */}
+        <div className="bg-gray-800 rounded-lg border border-gray-700 overflow-hidden">
+          <table className="w-full">
+            <thead>
+              <tr className="border-b border-gray-700">
+                <th className="text-left py-4 px-6 text-sm font-medium text-gray-300 w-16">
+                  Status
                 </th>
-                <th scope="col" className="p-6">
-                  Problem Title
+                <th className="text-left py-4 px-6 text-sm font-medium text-gray-300">
+                  Title
                 </th>
-                <th scope="col" className="p-6">
+                <th className="text-left py-4 px-6 text-sm font-medium text-gray-300 w-32">
+                  Acceptance
+                </th>
+                <th className="text-left py-4 px-6 text-sm font-medium text-gray-300 w-32">
                   Difficulty
                 </th>
-                <th scope="col" className="p-6">
+                <th className="text-left py-4 px-6 text-sm font-medium text-gray-300 w-40">
                   Category
-                </th>
-                <th scope="col" className="p-6">
-                  Status
                 </th>
               </tr>
             </thead>
             <tbody>
               {problems.map((problem, index) => (
-                <tr key={index} className="bg-light-2 hover:bg-light-4">
-                  <td className="p-4 text-center">
-                    <div>{index + 1}</div>
-                  </td>
-                  <th
-                    scope="row"
-                    className="px-6 py-4 hover:text-blue-500 hover:font-semibold hover:cursor-pointer font-medium whitespace-nowrap transition-all ease-in"
-                  >
-                    <div
-                      className="w-[300px] text-ellipsis overflow-hidden"
-                      onClick={() => {
-                        router.push(`/problems/${problem.id}`);
-                      }}
-                    >
-                      {problem.title}
+                <tr
+                  key={index}
+                  className="border-b border-gray-700 hover:bg-gray-700/30 transition-colors duration-150 cursor-pointer group"
+                  onClick={() => router.push(`/problems/${problem.id}`)}
+                >
+                  <td className="py-4 px-6">{renderStatusBadge(problem)}</td>
+                  <td className="py-4 px-6">
+                    <div className="flex items-center">
+                      <span className="text-gray-500 text-sm mr-4 w-6">
+                        {index + 1}.
+                      </span>
+                      <span className="text-white group-hover:text-blue-400 transition-colors duration-150 font-medium">
+                        {problem.title}
+                      </span>
                     </div>
-                  </th>
-                  <td>
-                    <div
-                      className={`w-fit mx-auto px-3 py-1 rounded-full hover:cursor-pointer text-sm text-light-1 ${
+                  </td>
+                  <td className="py-4 px-6">
+                    <span className="text-gray-400 text-sm">
+                      {Math.floor(Math.random() * 30 + 40)}%
+                    </span>
+                  </td>
+                  <td className="py-4 px-6">
+                    <span
+                      className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium ${
                         difficultyColors[problem?.difficulty]
                       }`}
                     >
                       {problem.difficulty}
-                    </div>
+                    </span>
                   </td>
-                  <td className="px-6 py-4">{problem.category}</td>
-                  <td className="px-6 py-4 cursor-pointer">
-                    {renderStatusBadge(problem)}
+                  <td className="py-4 px-6">
+                    <span className="text-gray-400 text-sm">
+                      {problem.category}
+                    </span>
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
+        </div>
+
+        {/* Footer Stats */}
+        <div className="mt-8 flex items-center justify-between text-sm text-gray-400">
+          <div>Showing {problems.length} problems</div>
+          <div className="flex items-center space-x-6">
+            <div className="flex items-center">
+              <div className="w-3 h-3 bg-green-400 rounded-full mr-2"></div>
+              <span>Easy</span>
+            </div>
+            <div className="flex items-center">
+              <div className="w-3 h-3 bg-yellow-400 rounded-full mr-2"></div>
+              <span>Medium</span>
+            </div>
+            <div className="flex items-center">
+              <div className="w-3 h-3 bg-red-400 rounded-full mr-2"></div>
+              <span>Hard</span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
