@@ -5,10 +5,10 @@ const Footer = () => {
   return (
     <div className='mt-12 w-full flex p-4'>
         <div className='max-w-6xl w-full flex justify-between items-center mx-auto max-md:justify-center max-md:flex-col gap-5'>
-            <p className='max-sm:justify-center'>2024 © AlgoPath | All Rights Reserved.</p>
+            <p className='max-sm:justify-center'>2025 © AlgoPath | All Rights Reserved.</p>
             <div className='flex gap-1 items-end max-sm:justify-center'>
-                <p>Developed by <b>❤️</b></p>
-                <Link href='https://github.com/your/algopath' target="_blank" rel="noopener noreferrer">
+                <p>Developed by <b>Yathish G P</b></p>
+                <Link href='https://github.com/YathishGP003/algopath' target="_blank" rel="noopener noreferrer">
                     <FaGithub className="w-5 h-5 text-gray-700 hover:text-gray-500 cursor-pointer" />
                 </Link>
             </div>
